@@ -1,0 +1,72 @@
+/*
+ * Offsite robot programming
+ * made by Eyan Fennelly
+ * on 12/10/18
+ */
+void setup() {
+  pinMode(2,OUTPUT);
+  pinMode(3,OUTPUT);
+  pinMode(4,OUTPUT);
+  pinMode(5,OUTPUT);
+
+  digitalWrite(2,LOW);
+  digitalWrite(3,LOW);
+  digitalWrite(4,LOW);
+  digitalWrite(5,LOW);
+
+  Serial.begin(9600);
+  
+
+}
+
+void loop() {
+  if (Serial.available() > 0);
+  {
+    char num = Serial.read();
+
+    if (num == '8')
+    {
+      digitalWrite(2,LOW);
+      digitalWrite(3,HIGH);
+      digitalWrite(4,HIGH);
+      digitalWrite(5,LOW);
+      Serial.println("MOVING FORWARD");
+    }
+    else if (num == '2')
+    {
+      digitalWrite(2,HIGH);
+      digitalWrite(3,LOW);
+      digitalWrite(4,LOW);
+      digitalWrite(5,HIGH);
+      Serial.println("MOVING BACKWARDS");
+    }
+    
+    else if (num == '5')
+    {
+      digitalWrite(2,LOW);
+      digitalWrite(3,LOW);
+      digitalWrite(4,LOW);
+      digitalWrite(5,LOW);
+      Serial.println("ALL STOP");
+    }
+    else if (num == '4')
+    {
+      digitalWrite(2,HIGH);
+      digitalWrite(3,LOW);
+      digitalWrite(4,HIGH);
+      digitalWrite(5,LOW);
+      Serial.println("TURNING LEFT");
+    }
+    else if (num == '6')
+    {
+      digitalWrite(2,LOW);
+      digitalWrite(3,HIGH);
+      digitalWrite(4,LOW);
+      digitalWrite(5,HIGH);
+      Serial.println("TURNING RIGHT");
+     
+    }
+  }
+
+
+}
