@@ -31,10 +31,16 @@
 
 /* Comment this out to disable prints and save space */
 #define BLYNK_PRINT Serial
+#define ONE_WIRE_BUS D4 
 
 
 #include <ESP8266WiFi.h>
 #include <BlynkSimpleEsp8266.h>
+#include <OneWire.h> 
+#include <DallasTemperature.h>
+OneWire oneWire(ONE_WIRE_BUS);
+DallasTemperature sensors(&oneWire);
+
 
 // You should get Auth Token in the Blynk App.
 // Go to the Project Settings (nut icon).
@@ -49,7 +55,7 @@ void setup()
 {
   // Debug console
   Serial.begin(9600);
-
+  sensors.begin(); 
   Blynk.begin(auth, ssid, pass);
 
   pinMode(D1,OUTPUT);
@@ -142,8 +148,18 @@ BLYNK_WRITE(V4)
   // process received value
 }
 
+void sendTemps()
+{
+  sensors.requestTemperatures(); // Polls the sensors
+
+  float envioTemp = sensors.getTempFByIndex(0); // Gets first probe on wire in lieu of by address
+
+  Blynk.virtualWrite(V5, envioTemp);
+}
 
 void loop()
 {
   Blynk.run();
+  sendTemps();
+  
 }
